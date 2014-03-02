@@ -7,10 +7,16 @@ $(document).ready(function(){
 	$("#submit_var").click(function(){
 		var lim=new Number(document.getElementById("number_var").value);
 		document.getElementById("var_form").innerHTML = "";
+		$("#var_form").append("Insert Variables<br><table><tr><td>Name</td><td>Data Type</td><td>Dimension</td></tr>");
 		for(var i=0;i<lim;i++){
-			$("#var_form").append("<input type=\"text\"><br>");
+			var curr=i.toString();
+			$("#var_form").append("<tr>");
+			$("#var_form").append("<td><input type=\"text\ id=\"name" + curr + "\"  ></td>");
+			$("#var_form").append("<td><input type=\"text\" id=\"type" + curr + "\"  ></td>");
+			$("#var_form").append("<td><input type=\"text\" id=\"dim" + curr + "\"  ></td>");
+			$("#var_form").append("</tr>");
 		}
-		$("#var_form").append("<input type=\"submit\">");
+		$("#var_form").append("<tr><td><input type=\"submit\"></td><td></td><td></td></tr></table>");
 	});
 	$("#number_var").keyup(function(event){
 		if(event.keyCode == 13){
@@ -22,17 +28,13 @@ $(document).ready(function(){
 </head>
 <body>
 
-<h1>Input</h1>
-
+<h1>Generate Function Prototype</h1>
 
 Number of Variables: 
 <input id="number_var" type="text"><br>
 <button id="submit_var" type="submit" value="Submit">Submit</button>
 
-<p>Insert Variables</p>
-
-<form id="var_form">
+<form id="var_form" method="POST">
 </form>
-
 </body>
 </html> 
