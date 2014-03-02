@@ -1,2 +1,8 @@
-start
 HTML+jquery+php
+index.html ->
+
+Takes Number of Variables in function
+Generate Form asking name,type & dimension
+
+backend.php->
+Generate all possibilities for function prototype
