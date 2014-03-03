@@ -5,8 +5,23 @@
 <script language="javascript" type="text/javascript" src="jquery-2.1.0.js"></script>
 <script>
 $(document).ready(function(){
+/*
+	$("#lang").on("change", function () {
+		alert("asd");
+		var optionSelected = $("option:selected", this);
+		var valueSelected = this.value;
+		alert(valueSelected);
+		if(valueSelected=="C"){
+			$("#class_name").css({"visibility":"hidden"});
+		}
+		else{
+			$("#class_name").css({"visibility":"blocked"});
+		}
+	});
+*/
 	$("#submit_var").click(function(){
 		var lim=new Number(document.getElementById("number_var").value);
+		var language=document.getElementById("lang").value;
 		//clearing form
 		document.getElementById("var_form").innerHTML = "";
 
@@ -15,10 +30,13 @@ $(document).ready(function(){
 		$("#var_form").attr("method","POST");
 
 		//hidden number of variables
-		$("#var_form").append("<input style=\"visibility:hidden;\"  name=\"num_var\" value=\""+ document.getElementById("number_var").value+"\"><br>");
+		$("#var_form").append("<input style=\"visibility:hidden;\"  name=\"num_var\" value=\""+ document.getElementById("number_var").value+"\">");
+		$("#var_form").append("<input style=\"visibility:hidden;\"  name=\"lang\" value=\""+ document.getElementById("lang").value+"\"><br>");
 		//function name - class name func_name class_name
 		$("#var_form").append("Function Name:<input name=\"func_name\"><br>");
-		$("#var_form").append("Class Name:<input name=\"class_name\"><br>");
+		if(document.getElementById("lang").value=="JAVA"){
+			$("#var_form").append("Class Name:<input id=\"class_name\" name=\"class_name\"><br>");
+		}
 
 		//return type - dimension ---- ret_type ret_dim
 		$("#var_form").append("Return Type<select name=\"ret_type\"><option value=\"integer\" selected>Integer</option><option value=\"character\">Character</option></select><br>");
@@ -55,6 +73,7 @@ $(document).ready(function(){
 
 Number of Variables: 
 <input id="number_var" type="text"><br>
+Language<select id="lang" name="lang"><option value="JAVA" selected>JAVA</option><option value="C">C</option></select><br>
 <button id="submit_var" type="submit" value="Submit">Submit</button>
 
 <form id="var_form" >
