@@ -1,14 +1,22 @@
 <html>
 <body>
+
+<h1>Possible Prototypes</h1>
+
 <?php 
 
 $lang_struct=array();
-// C
+// C -> struct
 $C_struct=array();
 
+//function begining & ending
+$C_struct["begin"]="";
+$C_struct["end"]="{<br>}";
+//datatypes
 $C_struct["integer"]="int";
 $C_struct["character"]="char";
 
+//dimension prefix & postfix to declaration
 $C_struct["dim"]=array();
 
 $dims=array();
@@ -21,15 +29,16 @@ $dims["pre"]="";
 $dims["pos"]="[]";
 array_push($C_struct["dim"],$dims);
 
-//print_r($C_struct["dim"]);
-//echo "<br>";
 
-//Java
+//Java -> variables with same meaning as C
 $java_struct=array();
 
+$java_struct["begin"]="public class ".$_POST["class_name"]."{<br>		public ";
 $java_struct["integer"]="int";
 $java_struct["character"]="char";
 $java_struct["common"]=array("ArrayList","Vector");
+$java_struct["end"]="{<br>	}<br>}";
+
 $java_struct["dim"]=array();
 
 $dims=array();
@@ -42,27 +51,18 @@ $dims["pre"]="[]";
 $dims["pos"]="";
 array_push($java_struct["dim"],$dims);
 
-
+//adding to lang_struct
 $lang_struct["C"]=$C_struct;
 $lang_struct["JAVA"]=$java_struct;
 
-//print_r($C_struct);
-//echo "<br>";
-
-//print_r($java_struct);
-//echo "<br>";
-
-/*
-print_r($lang_struct);
-echo "<br>";
-*/
-
+//storing variables
 $func_name=$_POST["func_name"];
 $class_name=$_POST["class_name"];
 $ret_type= $_POST["ret_type"];
 $ret_dim= (int)$_POST["ret_dim"];
-$cur_lang=$_POST["lang"];
+$lang=$_POST["lang"];
 
+// Variable class name , datatype , dimension & possibilities
 class Variable{
 	public $nam,$dtypes,$dims;
 	function Variable($nam,$dtypes,$dims,$lang){
@@ -107,36 +107,32 @@ class Variable{
 				}
 			}
 		}
-//		print_r($this->pos);
-//		echo "<br>";
 	}
 }
 
 $tot=(int)($_POST["num_var"]);
+//create array of Variable class
 $vars=array();
 for ($x=0; $x<$tot; $x++)
 {
 	$num=((string)$x);
-	array_push($vars,new Variable($_POST["name".$num],$_POST["type".$num],(int)$_POST["dim".$num],$cur_lang));
+	array_push($vars,new Variable($_POST["name".$num],$_POST["type".$num],(int)$_POST["dim".$num],$lang));
 } 
-array_push($vars,new Variable("",$ret_type,(int)$ret_dim,$cur_lang));
+//Last Element of array is return type
+array_push($vars,new Variable("",$ret_type,(int)$ret_dim,$lang));
 
-/*
-print_r($vars);
-echo "<br>";
-*/
-
+//generate function prototype from vars
 function generate_proto($index,$formed){
 	global $tot,$vars,$lang_struct;
 	if(($index)==($tot-1)){
-		global $func_name,$ret_type;
+		global $func_name,$ret_type,$lang;
 		$cur_list=$vars[$index]->pos;
 		//adding return type & function name
 		for($x=0;$x<count($cur_list);$x++){
 			$ret_list=$vars[$index+1]->pos;
 			for($y=0;$y<count($ret_list);$y++){
 				$ans=$formed." ".$cur_list[$x]." ";
-				$ans=$ret_list[$y]." ".$func_name." ( ".$ans." ) ";
+				$ans=$lang_struct[$lang]["begin"].$ret_list[$y]." ".$func_name." ( ".$ans." ) ".$lang_struct[$lang]["end"];
 				echo $ans."<br><br>";
 			}
 		}
@@ -147,9 +143,12 @@ function generate_proto($index,$formed){
 		generate_proto($index+1,$formed." ".$cur_list[$x]." , ");
 	}
 };
+
 generate_proto(0,"",$lang);
 
 ?>
+<br><br><br><br>
 
+<a href="index.html">go back</a>
 </body>
 </html>

@@ -1,8 +1,8 @@
-HTML+jquery+php
-index.html ->
+Brief Description:
 
-Takes Number of Variables in function
-Generate Form asking name,type & dimension
+Fill Number of Variables & Language
+Generate Form asking name,type & dimension of variables, Function name etc.
+On submitting redirects to backend.php, which shows all possible prototypes of function
 
-backend.php->
-Generate all possibilities for function prototype
+Technology used:
+javascript,HTML,jquery & php
