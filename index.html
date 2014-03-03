@@ -1,27 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>-->
+<script language="javascript" type="text/javascript" src="jquery-2.1.0.js"></script>
 <script>
 $(document).ready(function(){
 	$("#submit_var").click(function(){
 		var lim=new Number(document.getElementById("number_var").value);
+		//clearing form
 		document.getElementById("var_form").innerHTML = "";
+
+		//adding attr
 		$("#var_form").attr("action","backend.php");
 		$("#var_form").attr("method","POST");
-		$("#var_form").append("<h4>Insert Variables</h4><br><table>");
+
+		//hidden number of variables
+		$("#var_form").append("<input style=\"visibility:hidden;\"  name=\"num_var\" value=\""+ document.getElementById("number_var").value+"\"><br>");
+		//function name - class name func_name class_name
+		$("#var_form").append("Function Name:<input name=\"func_name\"><br>");
+		$("#var_form").append("Class Name:<input name=\"class_name\"><br>");
+
+		//return type - dimension ---- ret_type ret_dim
+		$("#var_form").append("Return Type<select name=\"ret_type\"><option value=\"integer\" selected>Integer</option><option value=\"character\">Character</option></select><br>");
+		$("#var_form").append("Return Dimensions<select name=\"ret_dim\"><option value=\"0\" selected>0</option><option value=\"1\">1</option><option value=\"2\">2</option></select><br>");
+
+
+		$("#var_form").append("<h4>Insert Variables</h4><br>");
+		//Create talbe for argument vars
+		$("#var_form").append("<table>");
 		$("#var_form").append("<tr><td>Name</td><td>Data Type</td><td>Dimension</td></tr>");
-		$("#var_form").append("<tr><td><input style=\"visibility:hidden;\"  name=\"num_var\" value=\""+ document.getElementById("number_var").value+"\"></td><td></td><td></td></tr>");
 		for(var i=0;i<lim;i++){
 			var curr=i.toString();
+			// name+i type+i dim+i
 			$("#var_form").append("<tr>");
 			$("#var_form").append("<td><input type=\"text\" name=\"name" + curr + "\"  ></td>");
 			$("#var_form").append("<td><select name=\"type"+curr+"\"><option value=\"integer\" selected>Integer</option><option value=\"character\">Character</option></select></td>");
-//			$("#var_form").append("<td><input type=\"text\" name=\"type" + curr + "\"  ></td>");
 			$("#var_form").append("<td><select name=\"dim"+curr+"\"><option value=\"0\" selected>0</option><option value=\"1\">1</option><option value=\"2\">2</option></select></td>");
-//			$("#var_form").append("<td><input type=\"text\" name=\"dim" + curr + "\"  ></td>");
 			$("#var_form").append("</tr>");
 		}
+		//submit button
 		$("#var_form").append("<tr><td><input type=\"submit\"></td><td></td><td></td></tr></table>");
 	});
 	$("#number_var").keyup(function(event){
@@ -42,5 +59,6 @@ Number of Variables:
 
 <form id="var_form" >
 </form>
+
 </body>
 </html> 
